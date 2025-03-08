@@ -1,0 +1,63 @@
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { X, User, MessageSquare, Trophy, UserPlus, Star, List, CheckCircle, Medal, ShoppingCart, BarChart, ThumbsUp, Clock, Activity, PenTool } from "lucide-react";
+
+export default function BettingCommunityUI() {
+  const [visibleSection, setVisibleSection] = useState(null);
+
+  const toggleSection = (section) => {
+    setVisibleSection(visibleSection === section ? null : section);
+  };
+
+  return (
+    <div className="p-6 max-w-4xl mx-auto">
+      {/* 个人信息模块 */}
+      <Card className="mb-6">
+        <CardContent className="p-4 flex items-center space-x-4">
+          <User className="w-10 h-10" />
+          <div>
+            <h2 className="text-lg font-bold">用户昵称</h2>
+            <p className="text-sm text-gray-500">等级: 高级玩家</p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Tabs defaultValue="home" className="w-full">
+        <TabsList className="grid grid-cols-5">
+          <TabsTrigger value="home">🏠 首页</TabsTrigger>
+          <TabsTrigger value="strategy">📊 策略分析</TabsTrigger>
+          <TabsTrigger value="social">💬 社交互动</TabsTrigger>
+          <TabsTrigger value="gamification">🎮 游戏化</TabsTrigger>
+          <TabsTrigger value="tasks">📝 任务系统</TabsTrigger>
+        </TabsList>
+
+        {[
+          { value: "home", title: "🔥 热门赛事推荐", button: "查看详情" },
+          { value: "strategy", title: "📈 高手策略分析", button: "查看策略" },
+          { value: "social", title: "👥 兴趣社交", button: "查看社交" },
+          { value: "gamification", title: "🎮 游戏化机制", button: "查看游戏化" },
+          { value: "tasks", title: "📝 每日任务", button: "查看任务" }
+        ].map(({ value, title, button }) => (
+          <TabsContent key={value} value={value}>
+            <Card>
+              <CardContent className="p-4 space-y-4">
+                <h2 className="text-xl font-bold">{title}</h2>
+                <Button variant="outline" onClick={() => toggleSection(value)}>{button}</Button>
+                {visibleSection === value && (
+                  <div className="relative w-full h-[800px] bg-gray-100 flex flex-col items-center justify-center mt-4">
+                    <Button variant="ghost" className="absolute top-2 right-2" onClick={() => setVisibleSection(null)}>
+                      <X className="w-5 h-5" />
+                    </Button>
+                    <p>筹建中</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        ))}
+      </Tabs>
+    </div>
+  );
+}
